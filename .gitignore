@@ -16,8 +16,6 @@
 !/log/.keep
 /tmp
 
-# Ignore files uploaded
-/uploaded/*
 
 # Ignore IDE settings
 /.idea
