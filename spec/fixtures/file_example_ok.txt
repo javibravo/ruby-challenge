@@ -1,0 +1,3 @@
+This is a a test file to test the new API
+service to upload files. It will count the number of words
+in the file and the number fo times each of them appear in the file.
