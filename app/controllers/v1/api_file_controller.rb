@@ -6,7 +6,7 @@ module V1
         render :status => :request_header_fields_too_large, :text => "File size exceeded, max 10MB"
       else
         file_name = SecureRandom.uuid()
-        path = File.join(RubyChallenge::Application.config.file_store_path, file_name)
+        path = File.join(Rails.root, RubyChallenge::Application.config.file_store_path, file_name)
 
         uploaded_file = File.open(path, "w+")
         uploaded_file.write(params[:file].read)
