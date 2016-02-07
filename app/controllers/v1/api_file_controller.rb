@@ -22,16 +22,28 @@ module V1
         text_file.words = word_counter.words.to_json
         text_file.save
 
-        response = {
-            'name' => text_file.name,
-            'total' => word_counter.total,
-            'distinct' => word_counter.distinct,
-            'words' => word_counter.words
-        }
-        render json: response
+        render json: createResponse(text_file)
       end
     end
 
+    def get
+      text_file = TextFile.find_by name: params['name']
+      response = {}
+      if text_file
+        response = createResponse(text_file)
+      end
+      render json: response
+    end
+
+    private
+    def createResponse text_file
+      return {
+          'name' => text_file.name,
+          'total' => text_file.total_words,
+          'distinct' => text_file.distinct_words,
+          'words' => JSON.parse(text_file.words)
+      }
+    end
   end
 end
 

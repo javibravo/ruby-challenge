@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       scope '/v1' do
         scope 'file' do
           post '/' => 'api_file#create'
+          get '/:name' => 'api_file#get'
         end
       end
     end
