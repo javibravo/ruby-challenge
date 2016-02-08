@@ -10,8 +10,8 @@ class WordsCounterService
   attr_reader :distinct
   attr_reader :words
 
-  def initialize(source)
-    @source = source
+  def initialize(file)
+    @file = file
   end
 
   def parse
@@ -19,7 +19,7 @@ class WordsCounterService
     @distinct = 0
     @words = Hash.new(0)
 
-    list_of_words = @source.read.split
+    list_of_words = @file.read.split
     list_of_words.each do |word|
       parse_word(word)
     end
