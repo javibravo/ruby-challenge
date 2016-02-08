@@ -1,16 +1,20 @@
 module V1
   class ApiFileController < ApplicationController
 
+    # POST action
+    # Upload file, parse and save TextFile.
     def upload
-      if params[:file].size > RubyChallenge::Application.config.file_max_size
-        render :status => :request_header_fields_too_large, :text => "File size exceeded, max 10MB"
+      uploaded_file = params[:file]
+      if uploaded_file.size > RubyChallenge::Application.config.file_max_size
+        render :status => :request_header_fields_too_large, :text => 'File size exceeded, max 10MB'
       else
-        text_file = TextFile.new
-        text_file.name = SecureRandom.uuid()
-        text_file.original_name = params[:file].original_filename
+        text_file = TextFile.new(
+          :name => SecureRandom.uuid(),
+          :original_name => uploaded_file.original_filename
+        )
 
-        uploaded_file = save_uploaded_file(params[:file], text_file.getPath)
-        word_counter = WordsCounterService.new(uploaded_file)
+        saved_file = save_uploaded_file(uploaded_file, text_file.getPath)
+        word_counter = WordsCounterService.new(saved_file)
         word_counter.parse
 
         text_file.total_words = word_counter.total
@@ -22,8 +26,10 @@ module V1
       end
     end
 
+    # GET action
+    # Get details for uploaded file.
     def get
-      text_file = TextFile.find_by name: params['name']
+      text_file = TextFile.find_by(name: params['name'])
       response = {}
       if text_file
         response = create_response(text_file)
