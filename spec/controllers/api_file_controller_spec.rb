@@ -11,7 +11,24 @@ RSpec.describe V1::ApiFileController do
     it 'is success' do
       expected_response_body = get_expected_response
 
-      post :upload, :file => @file
+      file = fixture_file_upload('file_example_ok.txt', 'text')
+      post :upload, :file => file
+      response_body = JSON.parse response.body
+      file_path = File.join(Rails.root, RubyChallenge::Application.config.file_store_path, response_body['name'])
+      expect(response).to have_http_status 200
+      expect(response_body['total']).to eq expected_response_body['total']
+      expect(response_body['distinct']).to eq expected_response_body['distinct']
+      expect(response_body['words']).to eq expected_response_body['words']
+      expect(File).to exist file_path
+
+      FileUtils.rm(file_path)
+    end
+
+    it 'is success with words with #blue' do
+      expected_response_body = get_expected_response
+
+      file = fixture_file_upload('file_example_with_blue.txt', 'text')
+      post :upload, :file => file
       response_body = JSON.parse response.body
       file_path = File.join(Rails.root, RubyChallenge::Application.config.file_store_path, response_body['name'])
       expect(response).to have_http_status 200

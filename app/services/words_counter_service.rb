@@ -15,6 +15,7 @@ class WordsCounterService
     @restricted_strings = Array.new
   end
 
+  # Words that contains restricted string will not be taken into account.
   def add_restricted_string(string)
     @restricted_strings.push(string)
   end

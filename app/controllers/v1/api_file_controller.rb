@@ -1,6 +1,8 @@
 module V1
   class ApiFileController < ApplicationController
 
+    RESTRICTED_STR_BLUE = 'blue'
+
     # POST action
     # Upload file, parse and save TextFile.
     def upload
@@ -15,6 +17,7 @@ module V1
 
         saved_file = save_uploaded_file(uploaded_file, text_file.getPath)
         word_counter = WordsCounterService.new(saved_file)
+        word_counter.add_restricted_string(RESTRICTED_STR_BLUE)
         word_counter.parse
 
         text_file.total_words = word_counter.total
