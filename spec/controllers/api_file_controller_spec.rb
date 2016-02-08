@@ -3,10 +3,6 @@ require 'rails_helper'
 
 RSpec.describe V1::ApiFileController do
 
-  before :each do
-    @file = fixture_file_upload('file_example_ok.txt', 'text')
-  end
-
   describe 'POST #create' do
     it 'is success' do
       expected_response_body = get_expected_response
@@ -41,8 +37,9 @@ RSpec.describe V1::ApiFileController do
     end
 
     it 'File size exceeded' do
+      file = fixture_file_upload('file_example_ok.txt', 'text')
       RubyChallenge::Application.config.file_max_size = 1.bytes
-      post :upload, :file => @file
+      post :upload, :file => file
       expect(response).to have_http_status 431
     end
   end
