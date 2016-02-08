@@ -23,6 +23,6 @@ ActiveRecord::Schema.define(version: 20160207222220) do
     t.datetime "updated_at",     null: false
   end
 
-  add_index "text_files", ["name"], name: "index_text_files_on_name"
+  add_index "text_files", ["name"], name: "index_text_files_on_name", unique: true
 
 end

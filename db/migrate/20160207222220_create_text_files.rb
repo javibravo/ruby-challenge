@@ -10,6 +10,6 @@ class CreateTextFiles < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_index :text_files, :name
+    add_index :text_files, :name, :unique => true
   end
 end
