@@ -12,6 +12,11 @@ class WordsCounterService
 
   def initialize(file)
     @file = file
+    @restricted_strings = Array.new
+  end
+
+  def add_restricted_string(string)
+    @restricted_strings.push(string)
   end
 
   def parse
@@ -33,9 +38,21 @@ class WordsCounterService
     cleaned_word = word.gsub(/[^a-zA-Z0-9\s]/i, '')
     if cleaned_word.length > 0
       cleaned_word = cleaned_word.downcase
-      @words[cleaned_word] += 1
-      @total += 1
+      if !is_restricted_string(cleaned_word)
+        @words[cleaned_word] += 1
+        @total += 1
+      end
     end
+  end
+
+  def is_restricted_string(word)
+    if @restricted_strings.length > 0
+      regex_content = @restricted_strings.join('|')
+      if word.match(/#{regex_content}/i)
+        return true
+      end
+    end
+    false
   end
 
 end

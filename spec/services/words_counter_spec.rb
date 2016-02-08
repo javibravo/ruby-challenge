@@ -65,4 +65,25 @@ RSpec.describe WordsCounterService, '#Basic' do
       expect(words_counter.words).to include ({'first' => 2, 'test' => 3, 'another' => 1})
     end
   end
+  context 'Remove restricted words' do
+    it 'Do not count words with #blue' do
+      source = double('source', :read => 'First test, blueberry TEST. first Blue, somethingblue, tESt')
+      words_counter = WordsCounterService.new(source)
+      words_counter.add_restricted_string('blue')
+      words_counter.parse
+      expect(words_counter.total).to eq 5
+      expect(words_counter.distinct).to eq 2
+      expect(words_counter.words).to include ({'first' => 2, 'test' => 3})
+    end
+    it 'Do not count words with #blue and #green' do
+      source = double('source', :read => 'First test, blueberry TEST. first Blue, somethingblue, tESt green park y greenpeace')
+      words_counter = WordsCounterService.new(source)
+      words_counter.add_restricted_string('blue')
+      words_counter.add_restricted_string('green')
+      words_counter.parse
+      expect(words_counter.total).to eq 7
+      expect(words_counter.distinct).to eq 4
+      expect(words_counter.words).to include ({'first' => 2, 'test' => 3, 'park' => 1, 'y' => 1})
+    end
+  end
 end
