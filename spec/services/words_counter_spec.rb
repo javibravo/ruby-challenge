@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe WordsCounter, "#Basic" do
+RSpec.describe WordsCounterService, "#Basic" do
   context "Most simple text" do
     it "counts each occurence of words" do
       source = double("source", :read => "First test to count words test")
-      words_counter = WordsCounter.new(source)
+      words_counter = WordsCounterService.new(source)
       words_counter.parse
       expect(words_counter.total).to eq 6
       expect(words_counter.distinct).to eq 5
@@ -18,7 +18,7 @@ RSpec.describe WordsCounter, "#Basic" do
           :read => "First    test to  count     words
                     test"
       )
-      words_counter = WordsCounter.new(source)
+      words_counter = WordsCounterService.new(source)
       words_counter.parse
       expect(words_counter.total).to eq 6
       expect(words_counter.distinct).to eq 5
@@ -28,7 +28,7 @@ RSpec.describe WordsCounter, "#Basic" do
   context "With punctuation marks" do
     it "counts each occurence of words" do
       source = double("source", :read => "First test, to count. words test. re-play")
-      words_counter = WordsCounter.new(source)
+      words_counter = WordsCounterService.new(source)
       words_counter.parse
       expect(words_counter.total).to eq 7
       expect(words_counter.distinct).to eq 6
@@ -38,7 +38,7 @@ RSpec.describe WordsCounter, "#Basic" do
   context "With more punctuation marks" do
     it "counts each occurence of words" do
       source = double("source", :read => "First test, to count. words?test")
-      words_counter = WordsCounter.new(source)
+      words_counter = WordsCounterService.new(source)
       words_counter.parse
       expect(words_counter.total).to eq 5
       expect(words_counter.distinct).to eq 5
@@ -48,7 +48,7 @@ RSpec.describe WordsCounter, "#Basic" do
   context "With isolated punctuation marks" do
     it "counts each occurence of words" do
       source = double("source", :read => "First test, ** to count. ( words?test")
-      words_counter = WordsCounter.new(source)
+      words_counter = WordsCounterService.new(source)
       words_counter.parse
       expect(words_counter.total).to eq 5
       expect(words_counter.distinct).to eq 5

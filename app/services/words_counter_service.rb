@@ -1,4 +1,4 @@
-class WordsCounter
+class WordsCounterService
 
   attr_reader :total
   attr_reader :distinct
