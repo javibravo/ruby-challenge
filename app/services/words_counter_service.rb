@@ -1,3 +1,9 @@
+# WordsCounterService
+#
+# Service used to parse and ASCII file and count number of words. It
+# counts duplications of each word.
+#
+# Required : File object.
 class WordsCounterService
 
   attr_reader :total
@@ -9,20 +15,27 @@ class WordsCounterService
   end
 
   def parse
-    words = @source.read.split
-    word_times = Hash.new(0)
-    total_words = 0
-    words.each do |word|
-      clean_word = word.gsub(/[^a-zA-Z0-9\s]/i, '')
-      if clean_word.length != 0
-        clean_word = clean_word.downcase
-        word_times[clean_word] += 1
-        total_words += 1
-      end
+    @total = 0
+    @distinct = 0
+    @words = Hash.new(0)
+
+    list_of_words = @source.read.split
+    list_of_words.each do |word|
+      parse_word(word)
     end
-    @total = total_words
-    @distinct = word_times.length
-    @words = word_times
+
+    @distinct = @words.length
+  end
+
+  private
+
+  def parse_word(word)
+    cleaned_word = word.gsub(/[^a-zA-Z0-9\s]/i, '')
+    if cleaned_word.length > 0
+      cleaned_word = cleaned_word.downcase
+      @words[cleaned_word] += 1
+      @total += 1
+    end
   end
 
 end
