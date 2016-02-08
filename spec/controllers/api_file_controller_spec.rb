@@ -13,7 +13,7 @@ RSpec.describe V1::ApiFileController do
 
       post :upload, :file => @file
       response_body = JSON.parse response.body
-      file_path = File.join(Rails.root, RubyChallenge::Application.config.file_store_path, response_body['name']);
+      file_path = File.join(Rails.root, RubyChallenge::Application.config.file_store_path, response_body['name'])
       expect(response).to have_http_status 200
       expect(response_body['total']).to eq expected_response_body['total']
       expect(response_body['distinct']).to eq expected_response_body['distinct']
