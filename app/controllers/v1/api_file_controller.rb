@@ -36,7 +36,7 @@ module V1
     end
 
     private
-    def createResponse text_file
+    def createResponse(text_file)
       return {
           'name' => text_file.name,
           'total' => text_file.total_words,
