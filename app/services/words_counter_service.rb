@@ -15,6 +15,7 @@ class WordsCounterService
     words.each do |word|
       clean_word = word.gsub(/[^a-zA-Z0-9\s]/i, '')
       if clean_word.length != 0
+        clean_word = clean_word.downcase
         word_times[clean_word] += 1
         total_words += 1
       end
