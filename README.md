@@ -69,6 +69,10 @@ Method: **GET**
 Get the result for file uploaded previously. The *name* (Returned in the response for upload request) must be specified
 at the end of the URL.
 
+```
+curl http://localhost:3000/api/v1/file/b3b6f6de-04c7-4fb5-ac8d-ce3fd59b8614
+```
+
 The response will be the same that the once received with file is uploaded.
 
 
