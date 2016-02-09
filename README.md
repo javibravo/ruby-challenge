@@ -1,5 +1,5 @@
-Ruby-Challenge
-==============
+# Ruby-Challenge
+
 
 [![Build Status](https://travis-ci.org/javibravo/ruby-challenge.svg?branch=master)](https://travis-ci.org/javibravo/ruby-challenge)
 
@@ -11,8 +11,9 @@ Some assumptions taken into account:
    - All punctuation marks are removed. So if two words are joined by a punctuation mark it will be a word, ie "re-play" will be "replay"
    - All words that contains the string "blue" will not be counted, ie: "blue", "blueberry", "bluegrass", ...
 
-Endpoint : /api/v1/file
------------------------
+## Endpoints
+
+### /api/v1/file
 Method: **POST**
 
 Upload and process file. The file must be added in the body of the request in a field named "file":
@@ -62,8 +63,7 @@ The response of the request will be a JSON with the following data:
 }
 ```
 
-Endpoint : /api/v1/file/:name
------------------------
+### /api/v1/file/:name
 Method: **GET**
 
 Get the result for file uploaded previously. The *name* (Returned in the response for upload request) must be specified
@@ -77,8 +77,7 @@ The response will be the same that the once received with file is uploaded. In c
 will return an empty JSON.
 
 
-Install
--------
+## Install
 
 To start using the application you must clone the project and run the following comands to install
 
@@ -87,8 +86,7 @@ To start using the application you must clone the project and run the following 
 >$ bundle exec rake db:migrate
 ```
 
-Tests
------
+## Tests
 
 Once the project is installed you mus run the following command to run tests
 
@@ -96,8 +94,7 @@ Once the project is installed you mus run the following command to run tests
 >$ bundle exec rspec
 ```
 
-Run
----
+## Run
 
 The application use [puma](https://github.com/puma/puma) as server, it will provide concurrency. Multiple threads and
 workers will run avoiding blocking I/O. You must check puma documentation to run with valid options according your 
