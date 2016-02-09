@@ -3,35 +3,25 @@ require 'rails_helper'
 
 RSpec.describe V1::ApiFileController do
 
-  describe 'POST #create' do
+  describe 'POST #upload' do
     it 'is success' do
-      expected_response_body = get_expected_response
-
       file = fixture_file_upload('file_example_ok.txt', 'text')
       post :upload, :file => file
+
       response_body = JSON.parse response.body
       file_path = File.join(Rails.root, RubyChallenge::Application.config.file_store_path, response_body['name'])
-      expect(response).to have_http_status 200
-      expect(response_body['total']).to eq expected_response_body['total']
-      expect(response_body['distinct']).to eq expected_response_body['distinct']
-      expect(response_body['words']).to eq expected_response_body['words']
-      expect(File).to exist file_path
+      validate_response(response, response_body, get_expected_response, file_path)
 
       FileUtils.rm(file_path)
     end
 
     it 'is success with words with #blue' do
-      expected_response_body = get_expected_response
-
       file = fixture_file_upload('file_example_with_blue.txt', 'text')
       post :upload, :file => file
+
       response_body = JSON.parse response.body
       file_path = File.join(Rails.root, RubyChallenge::Application.config.file_store_path, response_body['name'])
-      expect(response).to have_http_status 200
-      expect(response_body['total']).to eq expected_response_body['total']
-      expect(response_body['distinct']).to eq expected_response_body['distinct']
-      expect(response_body['words']).to eq expected_response_body['words']
-      expect(File).to exist file_path
+      validate_response(response, response_body, get_expected_response,file_path)
 
       FileUtils.rm(file_path)
     end
@@ -44,7 +34,50 @@ RSpec.describe V1::ApiFileController do
     end
   end
 
+  describe 'GET #get' do
+    it 'is success' do
+      file_name = 'test-file-name'
+      original_file_name = 'test-original-file-name'
+      total_words = 10
+      distinct_words = 5
+      words = {'first' => 1, 'test' => 1, 'to' => 1, 'count' => 1, 'wordstest' => 1}
+      text_file = TextFile.new(
+          :name => file_name,
+          :original_name => original_file_name,
+          :total_words => total_words,
+          :distinct_words => distinct_words,
+          :words => words.to_json
+      )
+      text_file.save
+
+      get :get, :name => file_name
+      response_body = JSON.parse response.body
+      expect(response).to have_http_status 200
+      expect(response_body['name']).to eq file_name
+      expect(response_body['total']).to eq total_words
+      expect(response_body['distinct']).to eq distinct_words
+      expect(response_body['words']).to eq words
+    end
+
+    it 'file name does not exists' do
+      get :get, :name => 'test-file-name'
+      response_body = JSON.parse response.body
+      expect(response).to have_http_status 200
+      expect(response_body).to be_empty
+    end
+  end
+
   private
+
+  def validate_response (response, response_body, expected_response_body, file_path)
+    expect(response).to have_http_status 200
+    expect(response_body['total']).to eq expected_response_body['total']
+    expect(response_body['distinct']).to eq expected_response_body['distinct']
+    expect(response_body['words']).to eq expected_response_body['words']
+    expect(response_body['name']).to_not eq ''
+    expect(File).to exist file_path
+  end
+
   def get_expected_response
     return {
         'total' => 37,
