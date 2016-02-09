@@ -99,8 +99,13 @@ Once the project is installed you mus run the following command to run tests
 Run
 ---
 
-To start running you must run the following command
+The application use [puma](https://github.com/puma/puma) as server, it will provide concurrency. Multiple threads and
+workers will run avoiding blocking I/O. You must check puma documentation to run with valid options according your 
+machine.
+
+Following example will run with 2 workers and puma will scale between 8 and 32 threads in each worker, based on the 
+traffic.
 
 ```
->$ bin/rails server
+>$ puma -t 8:32 -w 2
 ```
