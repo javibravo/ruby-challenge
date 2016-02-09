@@ -19,7 +19,7 @@ Method: **POST**
 Upload and process file. The file must be added in the body of the request in a field named "file":
 
 ```
-curl -X POST -F file=@/Users/jbravo/Projects/ruby-challenge/specs/fixtures/file_example_ok.txt http://localhost:3000/api/v1/file
+curl -X POST -F file=@/Users/jbravo/Projects/ruby-challenge/specs/fixtures/file_example_ok.txt http://localhost:9292/api/v1/file
 ```
 
 The response of the request will be a JSON with the following data:
@@ -70,7 +70,7 @@ Get the result for file uploaded previously. The *name* (Returned in the respons
 at the end of the URL.
 
 ```
-curl http://localhost:3000/api/v1/file/b3b6f6de-04c7-4fb5-ac8d-ce3fd59b8614
+curl http://localhost:9292/api/v1/file/b3b6f6de-04c7-4fb5-ac8d-ce3fd59b8614
 ```
 
 The response will be the same that the once received with file is uploaded. In case the file name does not exists it
