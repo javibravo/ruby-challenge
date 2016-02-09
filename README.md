@@ -3,13 +3,13 @@ Ruby-Challenge
 
 [![Build Status](https://travis-ci.org/javibravo/ruby-challenge.svg?branch=master)](https://travis-ci.org/javibravo/ruby-challenge)
 
-This Ruby test provide an API to upload ASCII files and count the numbers of words and the occurrence of each of them.
+This Ruby test provide an API to upload ASCII files, count the numbers of words and the occurrence of each of them.
 Some assumptions taken into account:
 
    - Words contains all letters (a-z and A-Z) and numbers (0-9).
    - It is not case sensitive, ie. "world" and "WoRLD" are the same word.
-   - All punctiation marks are removed. So if two words are joined by a punctuation mark it will be a word, ie "re-play" will be "replay"
-   - All word that contains the string "blue" will not be counted, ie: "blue", "blueberry", "bluegrass", ...
+   - All punctuation marks are removed. So if two words are joined by a punctuation mark it will be a word, ie "re-play" will be "replay"
+   - All words that contains the string "blue" will not be counted, ie: "blue", "blueberry", "bluegrass", ...
 
 Endpoint : /api/v1/file
 -----------------------
@@ -73,7 +73,8 @@ at the end of the URL.
 curl http://localhost:3000/api/v1/file/b3b6f6de-04c7-4fb5-ac8d-ce3fd59b8614
 ```
 
-The response will be the same that the once received with file is uploaded.
+The response will be the same that the once received with file is uploaded. In case the file name does not exists it
+will return an empty JSON.
 
 
 Install
@@ -83,12 +84,13 @@ To start using the application you must clone the project and run the following 
 
 ```
 >$ bundle install
+>$ bundle exec rake db:migrate
 ```
 
 Tests
 -----
 
-Once the project is stalled you mus run the following command to run tests
+Once the project is installed you mus run the following command to run tests
 
 ```
 >$ bundle exec rspec
@@ -97,7 +99,7 @@ Once the project is stalled you mus run the following command to run tests
 Run
 ---
 
-To start running you must run the following comand
+To start running you must run the following command
 
 ```
 >$ bin/rails server
