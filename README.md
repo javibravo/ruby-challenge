@@ -23,10 +23,11 @@ curl -X POST -F file=@/Users/jbravo/Projects/ruby-challenge/specs/fixtures/file_
 ```
 
 The response of the request will be a JSON with the following data:
-    - name : unique name generate for the file (UUID : http://ruby-doc.org/stdlib-2.2.3/libdoc/securerandom/rdoc/SecureRandom.html#method-c-uuid)
-    - total : total number of words
-    - distinct : number of distinct words
-    - words : list of words and number of occurrences
+
+   - name : unique name generate for the file (UUID : http://ruby-doc.org/stdlib-2.2.3/libdoc/securerandom/rdoc/SecureRandom.html#method-c-uuid)
+   - total : total number of words
+   - distinct : number of distinct words
+   - words : list of words and number of occurrences
 
 ```json
 {
