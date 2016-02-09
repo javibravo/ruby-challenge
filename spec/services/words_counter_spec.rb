@@ -11,6 +11,15 @@ RSpec.describe WordsCounterService, '#Basic' do
     end
   end
 
+  context 'Spaces at the beginning and the end' do
+    it 'counts each occurence of words' do
+      source = double('source', :read => '   First test to count words test       ')
+      words_counter = WordsCounterService.new(source)
+      words_counter.parse
+      validate_words_counter_result(words_counter, 6, 5, {'first' => 1, 'test' => 2, 'to' => 1, 'count' => 1, 'words' => 1})
+    end
+  end
+
   context 'With multiple white spaces ' do
     it 'counts each occurence of words' do
       source = double(
@@ -68,8 +77,18 @@ RSpec.describe WordsCounterService, '#Basic' do
       words_counter.parse
       validate_words_counter_result(words_counter, 5, 2, {'first' => 2, 'test' => 3})
     end
+
     it 'Do not count words with #blue and #green' do
       source = double('source', :read => 'First test, blueberry TEST. first Blue, somethingblue, tESt green park y greenpeace')
+      words_counter = WordsCounterService.new(source)
+      words_counter.add_restricted_string('blue')
+      words_counter.add_restricted_string('green')
+      words_counter.parse
+      validate_words_counter_result(words_counter, 7, 4, {'first' => 2, 'test' => 3, 'park' => 1, 'y' => 1})
+    end
+
+    it 'Do not count words with #blue and #green in the same word' do
+      source = double('source', :read => 'First test, blueberry TEST. first Blue, greensomethingblue, tESt green park y greenpeace')
       words_counter = WordsCounterService.new(source)
       words_counter.add_restricted_string('blue')
       words_counter.add_restricted_string('green')
